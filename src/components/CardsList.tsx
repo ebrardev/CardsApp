@@ -1,4 +1,6 @@
  import { FlatList, Image, Text, View,StyleSheet } from "react-native"
+ import { Gesture,GestureDetector } from "react-native-gesture-handler"
+ import Animated,{useSharedValue, withSpring} from "react-native-reanimated"
 
  const cards = [
     require('../../assets/cards/Card 1.png'),
@@ -13,13 +15,36 @@
  ]
 
 const CardsList = () =>{
+
+    const scrollY = useSharedValue(0)
+
+    const pan = Gesture.Pan().onStart(()=>{
+        console.log("Start")
+    }).onChange((event)=>{
+  
+        scrollY.value = scrollY.value- event.changeY
+        console.log("ScrollY",scrollY.value)
+    }).onEnd(()=>{
+        console.log("End")
+    })
+ 
+  
  return (
-    <View style={styles.container}>
+ <GestureDetector gesture={pan}>
+       <View style={styles.container}>
      {cards.map((card,index)=>(
-        <Image  key={index} style={styles.image} source={card} />
+        <Animated.Image  key={index} style={{
+            width:  "100%",
+            height: undefined,
+            aspectRatio:7/4,
+            marginVertical:5,
+            transform : [{translateY: scrollY}]
+            
+        }} source={card} />
      ))}
 
     </View>
+ </GestureDetector>
  )
 }
 export default CardsList
@@ -29,10 +54,5 @@ const styles = StyleSheet.create({
     container:{
     padding:10,
     },
-    image:{
-      width:  "100%",
-      height: undefined,
-      aspectRatio:7/4,
-      marginVertical:5,
-    }
+   
 })
