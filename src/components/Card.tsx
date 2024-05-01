@@ -1,13 +1,18 @@
- import  Animated, {useDerivedValue} from 'react-native-reanimated';
+ import  Animated, {clamp, useDerivedValue} from 'react-native-reanimated';
+import React, { useState } from 'react';
 
 
 
 const Card =({card,index,scrollY}) =>{
-    const translateY = useDerivedValue(()=>-scrollY.value)
+  const [cardHeight, setCardHeight] = useState(0)
+
+    const translateY = useDerivedValue(()=>clamp(-scrollY.value,-index*cardHeight,0))
 
     return (
 
-        <Animated.Image   style={{
+        <Animated.Image  
+        onLayout={(event) => setCardHeight(event.nativeEvent.layout.height+10)}
+        style={{
             width:  "100%",
             height: undefined,
             aspectRatio:7/4,
