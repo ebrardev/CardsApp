@@ -24,6 +24,7 @@ const CardsList = () =>{
     const {height:screenHeight} = useWindowDimensions()
 
     const scrollY = useSharedValue(0)
+    const maxScrollY = listHeight-screenHeight+70
 
     const pan = Gesture.Pan()
 .onBegin((event)=>{
@@ -34,11 +35,11 @@ const CardsList = () =>{
         console.log("Start")
     }).onChange((event)=>{
   
-        scrollY.value = clamp(scrollY.value-event.translationY,0,listHeight-screenHeight)
+        scrollY.value = clamp(scrollY.value-event.translationY,0,maxScrollY)
         console.log("ScrollY",scrollY.value)
     }).onEnd((event)=>{
         console.log("End",event.velocityY)
-        scrollY.value = withClamp({min:0,max:listHeight-screenHeight},withDecay({velocity:-event.velocityY})) 
+        scrollY.value = withClamp({min:0,max:maxScrollY},withDecay({velocity:-event.velocityY})) 
     })
  
   
