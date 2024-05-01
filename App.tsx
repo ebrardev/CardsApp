@@ -6,10 +6,10 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 export default function App() {
   return (
     <GestureHandlerRootView style={{flex:1}}>
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <CardsList />
       <StatusBar style="light" />
-    </SafeAreaView>
+    </View>
     </GestureHandlerRootView>
   );
 }

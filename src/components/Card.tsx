@@ -7,7 +7,7 @@ const Card =({card,index,scrollY}) =>{
 
     return (
 
-        <Animated.Image  key={index} style={{
+        <Animated.Image   style={{
             width:  "100%",
             height: undefined,
             aspectRatio:7/4,
