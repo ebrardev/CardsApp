@@ -1,8 +1,9 @@
- import  Animated  from 'react-native-reanimated';
+ import  Animated, {useDerivedValue} from 'react-native-reanimated';
 
 
 
 const Card =({card,index,scrollY}) =>{
+    const translateY = useDerivedValue(()=>-scrollY.value)
 
     return (
 
@@ -11,7 +12,7 @@ const Card =({card,index,scrollY}) =>{
             height: undefined,
             aspectRatio:7/4,
             marginVertical:5,
-            transform : [{translateY: scrollY}]
+            transform : [{translateY: translateY}]
             
         }} source={card} />
 

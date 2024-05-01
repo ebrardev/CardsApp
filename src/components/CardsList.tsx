@@ -1,6 +1,8 @@
  import { FlatList, Image, Text, View,StyleSheet } from "react-native"
  import { Gesture,GestureDetector } from "react-native-gesture-handler"
- import Animated,{useSharedValue, withSpring} from "react-native-reanimated"
+ import Animated,{cancelAnimation, useSharedValue, withDecay, clamp,
+withClamp
+} from "react-native-reanimated"
 import Card from "./Card"
 
  const cards = [
@@ -19,14 +21,20 @@ const CardsList = () =>{
 
     const scrollY = useSharedValue(0)
 
-    const pan = Gesture.Pan().onStart(()=>{
+    const pan = Gesture.Pan()
+.onBegin((event)=>{
+    cancelAnimation(scrollY)
+})
+    
+    .onStart(()=>{
         console.log("Start")
     }).onChange((event)=>{
   
-        scrollY.value = scrollY.value- event.changeY
+        scrollY.value = clamp(scrollY.value-event.translationY,0,1000)
         console.log("ScrollY",scrollY.value)
-    }).onEnd(()=>{
-        console.log("End")
+    }).onEnd((event)=>{
+        console.log("End",event.velocityY)
+        scrollY.value = withClamp({min:0,max:1000},withDecay({velocity:-event.velocityY})) 
     })
  
   
