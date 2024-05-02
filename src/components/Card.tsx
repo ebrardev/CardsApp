@@ -1,7 +1,7 @@
- import  Animated, {clamp, useAnimatedReaction, useDerivedValue, useSharedValue, withTiming} from 'react-native-reanimated';
+ import  Animated, {clamp, useAnimatedReaction, useDerivedValue, useSharedValue, withTiming,Easing} from 'react-native-reanimated';
 import React, { useState } from 'react';
 import {Gesture,GestureDetector} from "react-native-gesture-handler"
-import { useWindowDimensions } from 'react-native';
+import {  useWindowDimensions } from 'react-native';
 
 
 
@@ -28,12 +28,17 @@ const Card =({card,index,scrollY,activeCardIndex}) =>{
         
       }else if(activeCardIndex.value === index) {
              // this card becomes active
-             translateY.value=withTiming(-index*cardHeight)
+             translateY.value=withTiming(-index*cardHeight,{
+              duration:1250,
+              easing:Easing.out(Easing.quad)})
       
       }
       
       else {
-        translateY.value=withTiming( -index*cardHeight*0.9+screenHeight*0.7)
+        translateY.value=withTiming( -index*cardHeight*0.9+screenHeight*0.7,{
+          duration:1250,
+          easing:Easing.out(Easing.quad)
+        })
       }
 
 
